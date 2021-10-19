@@ -1,7 +1,9 @@
 class Ring<E> {
   List _list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
   int limit = 0;
   int reader = 0;
+
   bool limitFull = false;
   bool readerFull = false;
 
