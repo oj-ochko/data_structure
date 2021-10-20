@@ -1,3 +1,4 @@
+import 'package:ring_buffer/ringBuffer.dart';
 import 'package:ring_buffer/ring_buffer.dart';
 
 void main() {
@@ -28,4 +29,12 @@ void main() {
     i += 1;
   }
   print(list);
+
+  final ringBuffer = RingBuffer<int>(8);
+  ringBuffer.write(1);
+  ringBuffer.write(2);
+  ringBuffer.write(3);
+  ringBuffer.write(4);
+  ringBuffer.write(5);
+  print(ringBuffer);
 }
