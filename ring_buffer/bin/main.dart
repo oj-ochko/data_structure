@@ -1,13 +1,12 @@
 import 'package:ring_buffer/tree.dart';
 
 void main() {
-  final tree = createTree();
+  final tree = BinaryTreeNode('D',
+      leftChild: BinaryTreeNode('A'),
+      rightChild: BinaryTreeNode(
+        'R',
+        leftChild: BinaryTreeNode('T'),
+        rightChild: BinaryTreeNode('Fun'),
+      ));
   print(tree);
-}
-
-BinaryTree<String> createTree() {
-  final drink =
-      BinaryTree("drink", left: BinaryTree("hot"), right: BinaryTree("cold"));
-
-  return drink;
 }
