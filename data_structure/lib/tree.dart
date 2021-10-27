@@ -1,39 +1,64 @@
 class BinaryTreeNode<T> {
-  BinaryTreeNode(this.value, {this.leftChild, this.rightChild});
-  T value;
-  BinaryTreeNode? leftChild;
-  BinaryTreeNode? rightChild;
+  BinaryTreeNode(this.value, {this.left, this.right});
 
-  // modified from https://stackoverflow.com/a/19484210
+  T value;
+  BinaryTreeNode<T>? left;
+  BinaryTreeNode<T>? right;
+
+  bool find(T value) {
+    var result = false;
+    traverseInOrder((v) {
+      if (v == value) result = true;
+    });
+    return result;
+  }
+
+  void traverseInOrder(void Function(T value) doSomething) {
+    left?.traverseInOrder(doSomething);
+    doSomething(value);
+    right?.traverseInOrder(doSomething);
+  }
+
+  void traversePreOrder(void Function(T value) doSomething) {
+    doSomething(value);
+    left?.traversePreOrder(doSomething);
+    right?.traversePreOrder(doSomething);
+  }
+
+  void traversePostOrder(void Function(T value) doSomething) {
+    left?.traversePostOrder(doSomething);
+    right?.traversePostOrder(doSomething);
+    doSomething(value);
+  }
+
   @override
   String toString() {
     final out = StringBuffer();
-    if (rightChild != null) {
-      rightChild!._buildTree(out, true, '');
-    }
-    out.write(value.toString());
-    out.write('\n');
-    if (leftChild != null) {
-      leftChild!._buildTree(out, false, '');
-    }
+
+    final indents = <String>[];
+    right?._buildTree(out, true, indents);
+    out.writeln(value);
+    left?._buildTree(out, false, indents);
+
     return out.toString();
   }
 
-  void _buildTree(StringBuffer out, bool isRight, String indent) {
-    if (rightChild != null) {
-      rightChild!._buildTree(out, true, indent + (isRight ? '     ' : ' │   '));
+  void _buildTree(StringBuffer out, bool isRight, List<String> indents) {
+    if (right != null) {
+      indents.add(isRight ? '     ' : '│    ');
+      right!._buildTree(out, true, indents);
+      indents.removeLast();
     }
-    out.write(indent);
-    if (isRight) {
-      out.write(' ┌───');
-    } else {
-      out.write(' └───');
-    }
-    out.write(' ');
-    out.write(value.toString());
-    out.write('\n');
-    if (leftChild != null) {
-      leftChild!._buildTree(out, false, indent + (isRight ? ' │   ' : '     '));
+
+    out
+      ..writeAll(indents)
+      ..write(isRight ? '┌─── ' : '└─── ')
+      ..writeln(value);
+
+    if (left != null) {
+      indents.add(isRight ? '│    ' : '     ');
+      left!._buildTree(out, false, indents);
+      indents.removeLast();
     }
   }
 }

@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:ring_buffer/ringBuffer.dart';
+import 'package:ring_buffer/RingBuffer.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 

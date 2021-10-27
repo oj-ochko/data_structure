@@ -2,11 +2,14 @@ import 'package:ring_buffer/tree.dart';
 
 void main() {
   final tree = BinaryTreeNode('D',
-      leftChild: BinaryTreeNode('A'),
-      rightChild: BinaryTreeNode(
+      left: BinaryTreeNode('A'),
+      right: BinaryTreeNode(
         'R',
-        leftChild: BinaryTreeNode('T'),
-        rightChild: BinaryTreeNode('Fun'),
+        left: BinaryTreeNode('T'),
+        right: BinaryTreeNode('Fun'),
       ));
   print(tree);
+  tree.traversePostOrder((value) => print(value));
+  print(tree.find("T"));
+  print(tree.find("S"));
 }

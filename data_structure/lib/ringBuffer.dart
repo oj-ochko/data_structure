@@ -1,5 +1,3 @@
-import 'package:ring_buffer/ring_buffer.dart';
-
 class RingBuffer<E> {
   RingBuffer(int length) : _list = List.filled(length, null, growable: false);
 
