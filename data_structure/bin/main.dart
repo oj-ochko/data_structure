@@ -1,4 +1,4 @@
-import 'package:ring_buffer/tree.dart';
+import '../lib/tree.dart';
 
 void main() {
   final tree = BinaryTreeNode('D',
