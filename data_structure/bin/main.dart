@@ -1,7 +1,5 @@
 import 'package:ring_buffer/binary_search_tree.dart';
 
-import '../lib/tree.dart';
-
 void main() {
   final tree = BinarySearchTree<int>();
   tree.insert(43);
@@ -13,6 +11,7 @@ void main() {
   tree.insert(11);
   tree.insert(9);
   tree.insert(50);
+  print(tree);
 
   print(tree.contains(66));
 }
