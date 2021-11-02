@@ -6,22 +6,21 @@ int? factorialRecursion(num) {
   return total = num * factorialRecursion(num - 1);
 }
 
-String? timeTravel(num, int target) {
-  int current = num;
-  print(current);
-  if (current == target) {
+//a time traveler who can jump 3 years back but 2 forward
+String? timeTravel(num, int targetYear) {
+  int currentYear = num;
+  print(currentYear);
+  if (currentYear == targetYear) {
     return ('Destination reached');
   }
-  if (num > target) {
-    timeTravel(num - 3, target);
+  if (num > targetYear) {
+    timeTravel(num - 3, targetYear);
   } else {
-    timeTravel(num + 2, target);
+    timeTravel(num + 2, targetYear);
   }
 }
 
 void main() {
   print(factorialRecursion(5));
-  // final test = timeTravel(2021, 1999);
-  // print(test);
   timeTravel(2021, 2001);
 }
