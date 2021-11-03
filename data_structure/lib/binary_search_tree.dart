@@ -21,23 +21,6 @@ class BinarySearchTree<E extends Comparable> {
     return node;
   }
 
-  // bool? contains(E value) {
-  //   var current = root;
-  //   if (current == null) {
-  //     return false;
-  //   }
-  //   while (current != null) {
-  //     if (current.value == value) {
-  //       return true;
-  //     }
-  //     if (value.compareTo(current.value) >= 0) {
-  //       current = current.right;
-  //     } else {
-  //       current = current.left;
-  //     }
-  //   }
-  //   return false;
-  // }
   bool contains(E value) {
     var node = root;
     bool result = _containsHelper(node, value);
