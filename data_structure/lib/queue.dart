@@ -5,7 +5,6 @@ abstract class Queue<E> {
   void enqueue(E value);
   E? dequeue();
   bool get isEmpty;
-  //E? peek();
 }
 
 class QueueList<E> implements Queue<E> {
