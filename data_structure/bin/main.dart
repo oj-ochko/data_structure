@@ -1,4 +1,4 @@
-import 'package:ring_buffer/binary_search_tree.dart';
+import 'package:data_structure/binary_search_tree.dart';
 
 void main() {
   final tree = BinarySearchTree<int>();
