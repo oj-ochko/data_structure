@@ -1,26 +1,11 @@
-int? factorialRecursion(num) {
-  int total = 0;
-  if (num == 0) {
-    return 1;
-  }
-  return total = num * factorialRecursion(num - 1);
-}
-
-//a time traveler who can jump 3 years back but 2 forward
-String? timeTravel(num, int targetYear) {
-  int currentYear = num;
-  print(currentYear);
-  if (currentYear == targetYear) {
-    return ('Destination reached');
-  }
-  if (num > targetYear) {
-    timeTravel(num - 3, targetYear);
-  } else {
-    timeTravel(num + 2, targetYear);
-  }
-}
+import 'package:ring_buffer/test_lib.dart';
 
 void main() {
-  print(factorialRecursion(5));
-  timeTravel(2021, 2001);
+  var team = Corp();
+  team.addEmployee("OJ", 'COO', '22', '5,000,000');
+  team.addEmployee("Anand", 'CEO', '23', '7,000,000');
+  team.addEmployee("Temuujin", 'CFO', '22', '6,000,000');
+  print(team.peek('OJ'));
+  print(team.peek('Anand'));
+  print(team.peek('Temuujin'));
 }

@@ -1,5 +1,5 @@
-import 'package:ring_buffer/RingBuffer.dart';
 import 'linked_list.dart';
+import 'ring_buffer.dart';
 
 abstract class Queue<E> {
   void enqueue(E value);

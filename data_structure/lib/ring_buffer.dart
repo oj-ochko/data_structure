@@ -48,7 +48,6 @@ class RingBuffer<E> {
 
   @override
   String toString() {
-    // TODO: implement toString
     return _list.toString();
   }
 }
