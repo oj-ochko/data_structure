@@ -1,17 +1,6 @@
-import 'package:data_structure/binary_search_tree.dart';
+import 'package:data_structure/heap.dart';
 
 void main() {
-  final tree = BinarySearchTree<int>();
-  tree.insert(43);
-  tree.insert(10);
-  tree.insert(79);
-  tree.insert(90);
-  tree.insert(12);
-  tree.insert(54);
-  tree.insert(11);
-  tree.insert(9);
-  tree.insert(50);
-  print(tree);
-
-  print(tree.contains(66));
+  final list = [10, 8, 6, 3, 7, 5, 0, 1, 2, 0, 1, 5];
+  list.swap
 }
