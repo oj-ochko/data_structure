@@ -6,6 +6,7 @@ void main() {
   list.insertAll(theList);
   print(list);
   list.insertValue(9);
-  list.insertValue(9);
+  print(list);
+  list.removeRoot();
   print(list);
 }

@@ -1,5 +1,5 @@
 class Heap<E extends Comparable> {
-  List<E> _list = [];
+  final _list = [];
 
   int _leftChild(int parentIndex) => (parentIndex * 2) + 1;
   int _rightChild(int parentIndex) => (parentIndex * 2) + 2;
@@ -29,34 +29,29 @@ class Heap<E extends Comparable> {
       insertValue(item);
     }
   }
-  @override
-  String toString() {
-    final out = StringBuffer();
 
-    final indents = <String>[];
-    _list[_rightChild(0)]._buildTree(out, true, indents);
-    out.writeln(_list[0]);
-    _list[_leftChild(0)]._buildTree(out, false, indents);
-
-    return out.toString();
+  int? removeRoot() {
+    int heapifyIndex = 0;
+    _list[0] = _list[_list.length];
+    while (heapifyIndex < _list.length - 1) {
+      while (_list[_rightChild(heapifyIndex)].compareTo(
+          _list[heapifyIndex] != 0 ||
+              _list[_leftChild(heapifyIndex)]
+                  .compareTo(_list[heapifyIndex] != 0))) {
+        if (_list[_rightChild(heapifyIndex)]
+            .compareTo(_list[heapifyIndex] != 0)) {
+          swap(heapifyIndex, _rightChild(heapifyIndex));
+          heapifyIndex = _rightChild(heapifyIndex);
+        } else {
+          swap(heapifyIndex, _leftChild(heapifyIndex));
+          heapifyIndex = _leftChild(heapifyIndex);
+        }
+      }
+    }
   }
 
-  void _buildTree(StringBuffer out, bool isRight, List<String> indents) {
-    if (_list[_rightChild(0)] != null) {
-      indents.add(isRight ? '     ' : '│    ');
-      _list[_rightChild(0)]._buildTree(out, true, indents);
-      indents.removeLast();
-    }
-
-    out
-      ..writeAll(indents)
-      ..write(isRight ? '┌─── ' : '└─── ')
-      ..writeln(_list[0]);
-
-    if (_list[_leftChild(0)] != null) {
-      indents.add(isRight ? '│    ' : '     ');
-      _list[_leftChild(0)]._buildTree(out, false, indents);
-      indents.removeLast();
-    }
+  @override
+  String toString() {
+    return _list.toString();
   }
 }
