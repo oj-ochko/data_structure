@@ -14,13 +14,11 @@ class Heap<E extends Comparable> {
   void insertValue(E newValue) {
     _list.add(newValue);
     var parentIndex = _parent(_list.length - 1);
-    var parentValue = _list[parentIndex];
     var newValueIndex = _list.length - 1;
-    while (newValue.compareTo(parentValue) > 0) {
+    while (_list[newValueIndex] > _list[parentIndex] && newValueIndex != 0) {
       swap(newValueIndex, parentIndex);
+      newValueIndex = parentIndex;
       parentIndex = _parent(parentIndex);
-      newValueIndex = _parent(_parent(newValueIndex));
-      parentValue = _list[parentIndex];
     }
   }
 
@@ -30,24 +28,28 @@ class Heap<E extends Comparable> {
     }
   }
 
-  int? removeRoot() {
-    int heapifyIndex = 0;
-    _list[0] = _list[_list.length];
-    while (heapifyIndex < _list.length - 1) {
-      while (_list[_rightChild(heapifyIndex)].compareTo(
-          _list[heapifyIndex] != 0 ||
-              _list[_leftChild(heapifyIndex)]
-                  .compareTo(_list[heapifyIndex] != 0))) {
-        if (_list[_rightChild(heapifyIndex)]
-            .compareTo(_list[heapifyIndex] != 0)) {
-          swap(heapifyIndex, _rightChild(heapifyIndex));
-          heapifyIndex = _rightChild(heapifyIndex);
-        } else {
-          swap(heapifyIndex, _leftChild(heapifyIndex));
-          heapifyIndex = _leftChild(heapifyIndex);
-        }
-      }
+  void heapify(int i) {
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+    int length = _list.length - 1;
+
+    if (_leftChild(i) < length && _list[_leftChild(i)] > _list[largest]) {
+      largest = l;
     }
+    if (_rightChild(i) < length && _list[_rightChild(i)] > _list[largest]) {
+      largest = r;
+    }
+    if (largest != i) {
+      swap(i, largest);
+      heapify(largest);
+    }
+  }
+
+  void removeRoot() {
+    _list[0] = _list.last;
+    _list.removeLast();
+    heapify(0);
   }
 
   @override
