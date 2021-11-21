@@ -8,5 +8,6 @@ void main() {
   list.insertValue(9);
   print(list);
   list.removeRoot();
-  print(list);
+  list.heapTree();
+  list.printTree();
 }
