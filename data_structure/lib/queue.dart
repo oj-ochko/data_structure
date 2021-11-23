@@ -1,5 +1,8 @@
 import 'linked_list.dart';
 import 'ring_buffer.dart';
+import 'heap.dart';
+
+enum QueueType { high, low }
 
 abstract class Queue<E> {
   void enqueue(E value);
@@ -7,14 +10,31 @@ abstract class Queue<E> {
   bool get isEmpty;
 }
 
-class QueueList<E> implements Queue<E> {
+class QueueList<E extends Comparable> implements Queue<E> {
   final List<E> _list = [];
 
   @override
   E? dequeue() => (isEmpty) ? null : _list.removeAt(0);
 
   @override
-  void enqueue(E value) => _list.add(value);
+  void enqueue(E value) {
+    _list.add(value);
+    int valueIndex = _list.length - 1;
+    int compareIndex = valueIndex - 1;
+
+    while (valueIndex != 0 &&
+        _list[valueIndex].compareTo(_list[compareIndex]) > 0) {
+      _swap(valueIndex, compareIndex);
+      valueIndex -= 1;
+      compareIndex -= 1;
+    }
+  }
+
+  void _swap(firstIndex, secondIndex) {
+    var firstValue = _list[firstIndex];
+    _list[firstIndex] = _list[secondIndex];
+    _list[secondIndex] = firstValue;
+  }
 
   @override
   bool get isEmpty => _list.isEmpty;

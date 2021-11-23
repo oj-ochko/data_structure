@@ -1,98 +1,141 @@
-import 'tree.dart';
+enum HeapType { max, min }
 
 class Heap<E extends Comparable> {
-  final _list = [];
-  BinaryTreeNode<E>? root;
+  Heap({
+    List<E>? values,
+    HeapType type = HeapType.max,
+  }) : _type = type {
+    if (values == null) return;
+    for (final value in values) {
+      insert(value);
+    }
+  }
 
-  int _leftChild(int parentIndex) => (parentIndex * 2) + 1;
-  int _rightChild(int parentIndex) => (parentIndex * 2) + 2;
+  List<E> _list = [];
+  HeapType _type;
+
+  int _leftChild(int parentIndex) => 2 * parentIndex + 1;
+
+  int _rightChild(int parentIndex) => 2 * parentIndex + 2;
+
   int _parent(int childIndex) => (childIndex - 1) ~/ 2;
-  void swap(int firstIndex, int secondIndex) {
-    final firstValue = _list[firstIndex];
-    final secondtValue = _list[secondIndex];
-    _list[firstIndex] = secondtValue;
-    _list[secondIndex] = firstValue;
+
+  void _swap(int firstIndex, int secondIndex) {
+    final save = _list[firstIndex];
+    _list[firstIndex] = _list[secondIndex];
+    _list[secondIndex] = save;
   }
 
-  void insertValue(E newValue) {
-    _list.add(newValue);
-    var parentIndex = _parent(_list.length - 1);
-    var newValueIndex = _list.length - 1;
-    while (_list[newValueIndex] > _list[parentIndex] && newValueIndex != 0) {
-      swap(newValueIndex, parentIndex);
-      newValueIndex = parentIndex;
-      parentIndex = _parent(parentIndex);
-    }
+  void insert(E value) {
+    _list.add(value);
+    _moveUp(_list.length - 1);
   }
 
-  void insertAll(List list) {
-    for (var item in list) {
-      insertValue(item);
-    }
-  }
+  bool get isEmpty => _list.isEmpty;
 
-  void heapify(int i) {
-    int largest = i;
-    int l = 2 * i + 1;
-    int r = 2 * i + 2;
-    int length = _list.length - 1;
+  E? get peek => (isEmpty) ? null : _list[0];
 
-    if (_leftChild(i) < length && _list[_leftChild(i)] > _list[largest]) {
-      largest = l;
-    }
-    if (_rightChild(i) < length && _list[_rightChild(i)] > _list[largest]) {
-      largest = r;
-    }
-    if (largest != i) {
-      swap(i, largest);
-      heapify(largest);
-    }
-  }
-
-  void removeRoot() {
-    _list[0] = _list.last;
-    _list.removeLast();
-    heapify(0);
-  }
-
-  void printTree() {
-    print(root);
-  }
-
-  void heapTree() {
-    for (var value in _list) {
-      var counter = 0;
-      if (counter == _list[0]) add(value);
-      if (_leftChild(counter) < _list.length) {
-        add(_list[_leftChild(counter)]);
-      }
-      if (_rightChild(counter) < _list.length) {
-        add(_list[_rightChild(counter)]);
-      }
-    }
-  }
-
-  void add(E value) {
-    root = _addAt(root, value);
-  }
-
-  BinaryTreeNode<E> _addAt(BinaryTreeNode<E>? node, E value) {
-    if (node == null) {
-      return BinaryTreeNode<E>(value);
-    }
-
-    if (value.compareTo(node.value) != 0) {
-      node.left = _addAt(node.left, value);
+  bool _firstHasPriority(E valueA, E valueB) {
+    if (_type == HeapType.max) {
+      return valueA.compareTo(valueB) > 0;
     } else {
-      node.right = _addAt(node.right, value);
+      return valueA.compareTo(valueB) < 0;
     }
+  }
 
-    return node;
+  void _moveUp(int index) {
+    var childIndex = index;
+    var parentIndex = _parent(childIndex);
+    var childValue = _list[childIndex];
+    var parentValue = _list[parentIndex];
+
+    while (_firstHasPriority(childValue, parentValue)) {
+      _swap(childIndex, parentIndex);
+      childIndex = parentIndex;
+      parentIndex = _parent(parentIndex);
+      parentValue = _list[parentIndex];
+      if (childIndex == 0) return;
+    }
+  }
+
+  void _moveDown(int index) {
+    var parentIndex = index;
+    var leftIndex = _leftChild(parentIndex);
+    var rightIndex = _rightChild(parentIndex);
+
+    while (true) {
+      var theChosenOne = parentIndex;
+
+      // check left
+      if (_firstHasPriority(_list[leftIndex], _list[parentIndex])) {
+        theChosenOne = leftIndex;
+      }
+
+      // check right
+      if (rightIndex < _list.length &&
+          _firstHasPriority(_list[rightIndex], _list[parentIndex])) {
+        theChosenOne = rightIndex;
+      }
+
+      if (parentIndex == theChosenOne) {
+        return;
+      }
+
+      _swap(parentIndex, theChosenOne);
+      parentIndex = theChosenOne;
+      leftIndex = _leftChild(parentIndex);
+      rightIndex = _rightChild(parentIndex);
+
+      final length = _list.length;
+      if (leftIndex >= length) {
+        return;
+      }
+    }
+  }
+
+  E? removeRoot() {
+    if (_list.isEmpty) return null;
+
+    // swap root and last value
+    const root = 0;
+    final last = _list.length - 1;
+    _swap(root, last);
+
+    // move the root down
+    final value = _list.removeLast();
+    _moveDown(0);
+    return value;
   }
 
   @override
   String toString() {
-    // TODO: implement toString
-    return _list.toString();
+    final out = StringBuffer();
+
+    if (_rightChild(0) < _list.length) {
+      _buildTree(_rightChild(0), out, true, '');
+    }
+    out.writeln(_list[0]);
+    if (_leftChild(0) < _list.length) {
+      _buildTree(_leftChild(0), out, false, '');
+    }
+
+    return out.toString();
+  }
+
+  void _buildTree(int index, StringBuffer out, bool isRight, String indent) {
+    if (_rightChild(index) < _list.length) {
+      _buildTree(_rightChild(index), out, true,
+          indent + (isRight ? '     ' : '│    '));
+    }
+
+    out
+      ..write(indent)
+      ..write(isRight ? '┌─── ' : '└─── ')
+      ..writeln(_list[index]);
+
+    if (_leftChild(index) < _list.length) {
+      _buildTree(_leftChild(index), out, false,
+          indent + (isRight ? '│    ' : '     '));
+    }
   }
 }
