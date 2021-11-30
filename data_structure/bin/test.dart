@@ -1,22 +1,25 @@
-import 'package:data_structure/test_lib.dart';
-
 void main() {
-  var team = Corp();
-  team.addEmployee("OJ", 'COO', '22', '5,000,000');
-  team.addEmployee("Anand", 'CEO', '23', '7,000,000');
-  team.addEmployee("Temuujin", 'CFO', '22', '6,000,000');
+  final list = [1, 5, 1, 2, 67, 9, 2, 7, 2, 7, 124, 8];
+  selectionSort(list);
+  print(list);
+}
 
-  print(team);
+void swap(List list, int indexOne, int indexTwo) {
+  var valueOne = list[indexOne];
+  list[indexOne] = list[indexTwo];
+  list[indexTwo] = valueOne;
+}
 
-  team.changeName("OJ", "Ochir");
-  team.changePosition("Ochir", "cleaner");
-  team.changeAge("Ochir", "30");
-
-  print(team);
-
-  team.changeSalary("Ochir", "1");
-
-  team.peek("Anand");
-  team.peek("Temuujin");
-  team.peek("Ochir");
+void selectionSort(List list) {
+  for (var i = 0; i < list.length - 1; i++) {
+    int min = i;
+    for (var j = i + 1; j < list.length; j++) {
+      if (list[min] > list[j]) {
+        min = j;
+      }
+    }
+    if (min != i) {
+      swap(list, i, min);
+    }
+  }
 }
