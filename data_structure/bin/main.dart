@@ -1,13 +1,10 @@
-import 'package:data_structure/queue.dart';
+import 'package:data_structure/graph.dart';
 
 void main() {
-  var queue = QueueList();
-  queue.enqueue(10);
-  print(queue);
-  queue.enqueue(9);
-  print(queue);
-  queue.enqueue(12);
-  print(queue);
-  queue.enqueue(113);
-  print(queue);
+  var graph = Graph();
+  final a = graph.createVertex("A");
+  final b = graph.createVertex("B");
+  final c = graph.createVertex("C");
+  graph.addEdge(a, b, 5);
+  print(graph);
 }

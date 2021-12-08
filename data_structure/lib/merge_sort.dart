@@ -31,6 +31,8 @@ List<int> _merge(List<int> a, List<int> b) {
 
   if (aIndex < a.length) {
     // TODO add the rest
+    var rest = a.sublist(aIndex, a.length);
+    merged.addAll(rest);
   }
   return merged;
 }
